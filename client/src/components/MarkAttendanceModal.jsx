@@ -17,7 +17,7 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
         console.log("ClassId: ", classId);
         setMarkedStudents(attendanceData.filter(record => record.status === "Present"));
         console.log("Initial Marked Students: ", attendanceData.filter(record => record.status === "Present"));
-        socketRef.current = io('https://smart-attendance-system-api.onrender.com/'); // Adjust URL as needed
+        socketRef.current = io('http://localhost:5000'); // Adjust URL as needed
         socketRef.current.emit('join', classId);
         socketRef.current.on('attendanceUpdate', (studentData) => {
             console.log("Attendance Update: ", studentData);

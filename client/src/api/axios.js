@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-    baseURL: 'https://smart-attendance-system-api.onrender.com/api', // Proxied by Vite to http://localhost:5000
+    baseURL: 'http://localhost:5000/api', // Proxied by Vite to http://localhost:5000
     // If you deploy to Vercel/Render, this will need to point to your production details
 });
 
