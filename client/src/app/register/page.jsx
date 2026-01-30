@@ -42,7 +42,7 @@ export default function RegisterPage() {
                 phone: formData.phone,
                 studentId: formData.studentId,
                 password: formData.password,
-                role: 'student' // Explicitly setting role
+                role: 'student'
             });
 
             router.push('/login?registered=true');

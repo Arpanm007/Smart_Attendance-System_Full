@@ -11,17 +11,14 @@ export default function DashboardPage() {
     const { loading } = useAuth();
     const user = Cookies.get('userId');
     const role = Cookies.get('role');
-    console.log("Role: ", role);
     const router = useRouter();
 
-    // 1. Move the redirect logic into useEffect to fix the "setState in render" error
     useEffect(() => {
         if (!loading && !user) {
             router.push('/login');
         }
     }, [user, loading, router]);
 
-    // 2. Handle the loading state
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -30,12 +27,10 @@ export default function DashboardPage() {
         );
     }
 
-    // 3. Return null if no user (the useEffect will handle the push to /login)
     if (!user) {
         return null;
     }
 
-    // 4. Role-based Toggle
     return (
         <>
             {role === 'teacher' ? (

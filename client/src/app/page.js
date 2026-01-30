@@ -7,7 +7,6 @@ import { QrCode, ShieldCheck, Zap, UserPlus } from 'lucide-react';
 export default function LandingPage() {
   return (
     <div className="h-screen bg-gray-50">
-      {/* Navigation */}
       <nav className="flex items-center justify-between px-8 py-6 bg-white shadow-sm">
         <div className="flex items-center gap-2">
           <div className="h-10 w-10 bg-purple-600 rounded-lg flex items-center justify-center">
@@ -28,7 +27,6 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
           Attendance tracking made <span className="text-purple-600">effortless.</span>
@@ -54,7 +52,6 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        {/* Features */}
         <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-8">
           <FeatureCard
             icon={<QrCode className="text-purple-600" />}

@@ -1,4 +1,4 @@
-'use client'; // Required because we use hooks and state
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -18,8 +18,8 @@ import {
 
 export default function DashboardLayout({ children }) {
     const { user, logout } = useAuth();
-    const router = useRouter();     // Replaces useNavigate
-    const pathname = usePathname(); // Replaces useLocation().pathname
+    const router = useRouter();
+    const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = () => {
@@ -33,10 +33,9 @@ export default function DashboardLayout({ children }) {
             : 'text-purple-100 hover:bg-purple-800 hover:text-white';
     };
 
-    // Refactored NavItem for Next.js
     const NavItem = ({ href, icon: Icon, label }) => (
         <Link
-            href={href} // Replaces 'to'
+            href={href}
             onClick={() => setIsMobileMenuOpen(false)}
             className={`group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${isActive(href)}`}
         >
@@ -47,7 +46,6 @@ export default function DashboardLayout({ children }) {
 
     return (
         <div className="min-h-screen bg-gray-100 flex">
-            {/* Sidebar for Desktop */}
             <div className="hidden md:flex md:w-64 md:flex-col fixed h-full z-10">
                 <div className="flex flex-col grow pt-5 bg-indigo-900 overflow-y-auto">
                     <div className="flex items-center gap-3 px-4 mb-8">
@@ -89,9 +87,7 @@ export default function DashboardLayout({ children }) {
                 </div>
             </div>
 
-            {/* Main Content Area */}
             <div className="flex-1 flex flex-col md:pl-64 transition-all duration-300">
-                {/* Mobile Header */}
                 <div className="md:hidden flex items-center justify-between bg-indigo-900 p-4 shadow-md">
                     <span className="text-white font-bold text-lg">SmartAttend</span>
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white">
@@ -99,7 +95,6 @@ export default function DashboardLayout({ children }) {
                     </button>
                 </div>
 
-                {/* Mobile Menu Overlay */}
                 {isMobileMenuOpen && (
                     <div className="md:hidden bg-indigo-900 absolute top-16 left-0 w-full z-20 p-4 space-y-2 shadow-xl">
                         <NavItem href="/dashboard" icon={LayoutDashboard} label="Dashboard" />

@@ -4,7 +4,7 @@ const subjectSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true, // Prevent duplicate subject names
+        unique: true,
         trim: true,
     },
     code: {

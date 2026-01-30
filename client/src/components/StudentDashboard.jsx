@@ -19,7 +19,6 @@ const StudentDashboard = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const qrReaderRef = useRef(null);
 
-    // Initial Data Load
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
@@ -37,7 +36,6 @@ const StudentDashboard = () => {
         fetchDashboardData();
     }, []);
 
-    // Scanner Controls
     const startScanner = async () => {
         setIsScanning(true);
         setScannedData(null);
@@ -48,7 +46,7 @@ const StudentDashboard = () => {
                 qrReaderRef.current = html5QrCode;
                 await html5QrCode.start(
                     { facingMode: "environment" },
-                    { fps: 24, qrbox: undefined }, // No library box, we use custom CSS HUD
+                    { fps: 24, qrbox: undefined },
                     (text) => {
                         handleScanSuccess(text);
                         if (navigator.vibrate) navigator.vibrate(50);
@@ -65,7 +63,6 @@ const StudentDashboard = () => {
     const handleScanSuccess = (text) => {
         const textData = JSON.parse(text);
         setScannedData(textData);
-        // Simulate data enrichment from the QR token
         setScanDetails({
             subject: textData.classId,
             room: "Lecture Hall 3",
@@ -104,7 +101,6 @@ const StudentDashboard = () => {
         setIsScanning(false);
     };
 
-    // Helper for Status UI
     const getStatusTheme = (status) => {
         const s = status?.toLowerCase();
         if (s === 'present') return 'bg-emerald-50 text-emerald-600 border-emerald-100';
@@ -122,7 +118,6 @@ const StudentDashboard = () => {
 
             <div className="max-w-[1440px] mx-auto p-4 md:p-8 lg:p-12">
 
-                {/* 1. Header Area */}
                 <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                     <div>
                         <div className="flex items-center gap-2 mb-3">
@@ -142,7 +137,6 @@ const StudentDashboard = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                    {/* 2. Side Panel: Profile & Quick Stats */}
                     <aside className="lg:col-span-4 space-y-6">
                         <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-slate-200/60 relative overflow-hidden">
                             <div className="relative z-10">
@@ -174,7 +168,6 @@ const StudentDashboard = () => {
                         </div>
                     </aside>
 
-                    {/* 3. Main Content: Full Attendance Log */}
                     <main className="lg:col-span-8">
                         <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 flex flex-col h-[700px]">
                             <div className="p-8 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -229,7 +222,6 @@ const StudentDashboard = () => {
                 </div>
             </div>
 
-            {/* --- 4. FLOATING ACTION BUTTON (SCAN) --- */}
             <div className="fixed bottom-8 right-8 md:bottom-12 md:right-12 z-[100]">
                 <button
                     onClick={startScanner}
@@ -240,16 +232,12 @@ const StudentDashboard = () => {
                 </button>
             </div>
 
-            {/* --- 5. CAMERA OVERLAY UI --- */}
             {isScanning && (
                 <div className="fixed inset-0 z-[99999] bg-black">
-                    {/* Background Camera Feed */}
                     <div id="camera-container" className="absolute inset-0 bg-black h-full w-full" />
 
-                    {/* Higher-Level HUD Overlay */}
                     <div className="relative z-[100] h-full flex flex-col justify-between p-6 pointer-events-none overflow-hidden">
 
-                        {/* Scanner Header */}
                         <div className="flex justify-between items-center pointer-events-auto">
                             <button
                                 onClick={stopScanner}
@@ -262,12 +250,10 @@ const StudentDashboard = () => {
                             </div>
                         </div>
 
-                        {/* Centered Viewfinder (Only visible if not scanned) */}
                         {!scannedData && (
                             <div className="self-center relative flex flex-col items-center">
                                 <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-[3.5rem] overflow-hidden border border-white/10">
                                     <div className="absolute inset-x-0 h-1 bg-indigo-500 shadow-[0_0_25px_rgba(99,102,241,1)] animate-scan" />
-                                    {/* Corner Brackets */}
                                     <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-indigo-500 rounded-tl-3xl" />
                                     <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-indigo-500 rounded-tr-3xl" />
                                     <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-indigo-500 rounded-bl-3xl" />
@@ -277,7 +263,6 @@ const StudentDashboard = () => {
                             </div>
                         )}
 
-                        {/* Confirmation Card (Slide-up) */}
                         <div className="pointer-events-auto w-full max-w-lg mx-auto transform transition-all">
                             {scannedData && (
                                 <div className="bg-white rounded-[3.5rem] p-8 md:p-10 shadow-2xl animate-slide-up">
@@ -325,19 +310,16 @@ const StudentDashboard = () => {
             )}
 
             <style jsx global>{`
-                /* Library Overrides */
                 #camera-container { position: absolute !important; inset: 0; z-index: 10 !important; background: black; }
                 #camera-container video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
                 #camera-container__dashboard, #camera-container__status_span, #camera-container img { display: none !important; }
                 
-                /* Animations */
                 @keyframes scan { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
                 .animate-scan { position: absolute; animation: scan 2.5s linear infinite; }
                 
                 @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
                 .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
                 
-                /* Custom Scrollbar */
                 .custom-scrollbar::-webkit-scrollbar { width: 5px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
                 .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }

@@ -76,12 +76,10 @@ const TeacherDashboard = () => {
 
 
             <div className="relative mt-8 overflow-hidden bg-white border border-slate-200 rounded-2xl p-8 shadow-sm group">
-                {/* Decorative background element */}
                 <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-indigo-50 rounded-full blur-3xl group-hover:bg-indigo-100 transition-colors duration-500" />
 
                 <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-5">
-                        {/* Icon with a more sophisticated container */}
                         <div className="flex-shrink-0 p-4 bg-indigo-600 rounded-2xl shadow-lg shadow-indigo-200 rotate-3 group-hover:rotate-0 transition-transform duration-300">
                             <Calendar className="h-8 w-8 text-white" />
                         </div>
@@ -96,12 +94,8 @@ const TeacherDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Improved Action Button */}
                     <button
-                        onClick={() => {
-                            //Open QR Modal;
-                            setIsMarkAttendanceModalOpen(true);
-                        }}
+                        onClick={() => setIsMarkAttendanceModalOpen(true)}
                         className="whitespace-nowrap px-8 py-4 bg-indigo-600 text-white font-bold rounded-xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 hover:shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2"
                     >
                         Mark Attendance Now

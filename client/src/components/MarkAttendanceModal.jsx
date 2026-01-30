@@ -2,10 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { X, Users, CheckCircle, QrCode, ShieldCheck, Info } from 'lucide-react';
-import { QRCodeCanvas } from 'qrcode.react'; // Standard library for Next.js
+import { QRCodeCanvas } from 'qrcode.react';
 
 const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
-    // Demo state for real-time list - later updated via Socket.io
     const [markedStudents, setMarkedStudents] = useState([]);
 
     let socketRef = useRef(null);
@@ -14,21 +13,16 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
     useEffect(() => {
         if (!isOpen) return;
 
-        console.log("ClassId: ", classId);
         setMarkedStudents(attendanceData.filter(record => record.status === "Present"));
-        console.log("Initial Marked Students: ", attendanceData.filter(record => record.status === "Present"));
-        socketRef.current = io('http://localhost:5000'); // Adjust URL as needed
+        socketRef.current = io('http://localhost:5000');
         socketRef.current.emit('join', classId);
         socketRef.current.on('attendanceUpdate', (studentData) => {
-            console.log("Attendance Update: ", studentData);
             setMarkedStudents((prev) => [...prev, studentData]);
-            console.log("Marked Students: ", markedStudents);
         });
     }, [isOpen, classId]);
 
     const handleOnClose = () => {
         setMarkedStudents([]);
-        console.log("Leaving room: ", classId);
         socketRef.current.disconnect();
         onClose();
     }
@@ -37,23 +31,17 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
 
     if (!isOpen) return null;
 
-    // We filter attendanceData for students not yet marked present
     const unmarkedStudents = attendanceData?.filter(record =>
-        // Condition A: They are currently Absent in the database
         (record.status === "Absent" || record.status === null) &&
-        // Condition B: They are NOT in our live 'markedStudents' list yet
         !markedStudents.some(live => live.student._id === record.student._id)
     ) || [];
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-            {/* Backdrop with heavy blur to match dashboard sophistication */}
             <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-md" onClick={onClose} />
 
-            {/* Modal Container */}
             <div className="relative w-full max-w-6xl h-[85vh] bg-white rounded-[2rem] shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/20">
 
-                {/* 1. Unmarked Students Section (1/4) */}
                 <div className="flex-1 bg-slate-50/50 border-r border-slate-100 flex flex-col">
                     <div className="p-6 border-b bg-white/50 backdrop-blur-sm flex items-center justify-between">
                         <div className="flex items-center gap-2">
@@ -76,9 +64,7 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
                     </div>
                 </div>
 
-                {/* 2. QR Code Section (2/4) */}
                 <div className="flex-[2] flex flex-col items-center justify-center p-8 text-center bg-white relative">
-                    {/* Decorative Top Accent */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-600 to-transparent opacity-20" />
 
                     <button
@@ -100,7 +86,6 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
                         </p>
                     </div>
 
-                    {/* QR Code Container with Dashboard-style Shadow */}
                     <div className="relative p-6 bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(79,70,229,0.15)] border border-slate-100 mb-10 group">
                         <div className="absolute inset-0 bg-indigo-600/5 rounded-[2.5rem] scale-95 group-hover:scale-105 transition-transform duration-500" />
                         <div className="relative bg-white p-4 rounded-2xl">
@@ -110,7 +95,7 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
                                 level={"H"}
                                 includeMargin={false}
                                 imageSettings={{
-                                    src: "/logo.png", // Optional: put your campus logo here
+                                    src: "/logo.png",
                                     x: undefined, y: undefined, height: 40, width: 40, excavate: true,
                                 }}
                             />
@@ -130,7 +115,6 @@ const MarkAttendanceModal = ({ isOpen, onClose, attendanceData, classId }) => {
                     </div>
                 </div>
 
-                {/* 3. Present Students Section (1/4) */}
                 <div className="flex-1 bg-indigo-50/30 border-l border-indigo-100 flex flex-col">
                     <div className="p-6 border-b bg-white/50 backdrop-blur-sm flex items-center justify-between">
                         <div className="flex items-center gap-2">

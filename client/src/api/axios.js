@@ -2,11 +2,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-    baseURL: 'http://192.168.0.192:5000/api', // Proxied by Vite to http://localhost:5000
-    // If you deploy to Vercel/Render, this will need to point to your production details
+    baseURL: 'http://192.168.0.192:5000/api',
 });
 
-// Add a request interceptor to attach the token
 api.interceptors.request.use(
     (config) => {
         const token = Cookies.get('token');

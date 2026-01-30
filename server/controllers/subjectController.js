@@ -1,16 +1,10 @@
 const Subject = require('../models/Subject');
 
-// @desc    Get all subjects
-// @route   GET /api/subjects
-// @access  Private
 const getSubjects = async (req, res) => {
     const subjects = await Subject.find({});
     res.json(subjects);
 };
 
-// @desc    Create a subject
-// @route   POST /api/subjects
-// @access  Private (Teacher)
 const createSubject = async (req, res) => {
     const { name, code, description } = req.body;
 

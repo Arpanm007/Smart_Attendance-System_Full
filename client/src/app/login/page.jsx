@@ -24,11 +24,7 @@ export default function LoginPage() {
 
         try {
             const { data } = await api.post('/auth/login', { email, password });
-
-            // This function sets both localStorage and the 'token' Cookie
             login(data);
-
-            // Move to dashboard
             router.push('/dashboard');
         } catch (err) {
             setError(err.response?.data?.message || 'Invalid credentials');

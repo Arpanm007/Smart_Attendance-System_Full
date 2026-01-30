@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Only runs in the browser
         const role = Cookies.get('role');
         if (role) {
             setUserRole(role);

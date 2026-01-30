@@ -2,9 +2,6 @@ const User = require('../models/User');
 const Attendance = require('../models/Attendance');
 const Subject = require('../models/Subject');
 
-// @desc    Get all students
-// @route   GET /api/users/students
-// @access  Private (Teacher)
 const getStudents = async (req, res) => {
     try {
         const students = await User.find({ role: 'student' }).select('-password').sort({ studentId: 1 });
@@ -14,9 +11,6 @@ const getStudents = async (req, res) => {
     }
 };
 
-// @desc    Get system stats for dashboard
-// @route   GET /api/users/stats
-// @access  Private (Teacher)
 const getDashboardStats = async (req, res) => {
     const { userId } = req.body;
 
@@ -24,7 +18,6 @@ const getDashboardStats = async (req, res) => {
     try {
         const totalStudents = await User.countDocuments({ role: 'student' });
 
-        // Get today's date range (00:00 to 23:59)
         const date = new Date();
         const startOfDay = new Date();
         startOfDay.setHours(0, 0, 0, 0);
@@ -108,14 +101,10 @@ const getDashboardStats = async (req, res) => {
     }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
 const updateUserProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
-        // Validation
         if (req.body.phone && (req.body.phone.length !== 10 || !/^\d+$/.test(req.body.phone))) {
             res.status(400);
             throw new Error('Phone number must be exactly 10 digits');
@@ -128,8 +117,6 @@ const updateUserProfile = async (req, res) => {
 
         user.name = req.body.name || user.name;
         user.phone = req.body.phone || user.phone;
-        // Email and Role are typically not editable by the user for security/integrity
-        // user.email = req.body.email || user.email; 
 
         if (req.body.password) {
             user.password = req.body.password;
@@ -145,7 +132,7 @@ const updateUserProfile = async (req, res) => {
             phone: updatedUser.phone,
             studentId: updatedUser.studentId,
             course: updatedUser.course,
-            token: req.headers.authorization.split(' ')[1] // Keep existing token or generate new if needed
+            token: req.headers.authorization.split(' ')[1]
         });
     } else {
         res.status(404);

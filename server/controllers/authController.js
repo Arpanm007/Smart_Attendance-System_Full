@@ -9,15 +9,11 @@ const generateToken = (id) => {
     });
 };
 
-// @desc    Auth user & get token
-// @route   POST /api/auth/login
-// @access  Public
 const authUser = async (req, res) => {
-    const { email, password } = req.body; // 'email' field acts as Identifier (Email or Student ID)
+    const { email, password } = req.body;
     console.log(email, password);
 
     try {
-        // Allow login with either Email OR Student ID
         const user = await UserModal.findOne({ email });
 
         if (user && (await user.matchPassword(password))) {
@@ -34,9 +30,6 @@ const authUser = async (req, res) => {
     }
 };
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
 const registerUser = async (req, res) => {
     const { name, email, phone, password, role, studentId, course } = req.body;
 
@@ -58,7 +51,6 @@ const registerUser = async (req, res) => {
                 return;
             }
         } else {
-            // For teachers, ensure studentId is undefined so sparse index ignores it
             req.body.studentId = undefined;
         }
 

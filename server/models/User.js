@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
         unique: true,
     },
     phone: {
-        type: String, // 10 digit number
+        type: String,
     },
     password: {
         type: String,
@@ -26,12 +26,12 @@ const userSchema = mongoose.Schema({
     studentId: {
         type: String,
         unique: true,
-        sparse: true, // Only for students
+        sparse: true,
     },
     teacherId: {
         type: String,
         unique: true,
-        sparse: true, // Only for teachers
+        sparse: true,
     },
     subjects: [
         {

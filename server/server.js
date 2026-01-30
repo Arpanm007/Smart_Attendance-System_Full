@@ -16,7 +16,6 @@ const io = new Server(server, {
     },
 });
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
@@ -24,10 +23,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Database Connection
 connectDB();
 
-// Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/attendance', require('./routes/attendanceRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));

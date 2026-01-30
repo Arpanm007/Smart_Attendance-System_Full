@@ -2,13 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { X, CheckCircle2, XCircle, Search, Calendar, Users } from 'lucide-react';
 
 const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
-    // 1. HOOKS ALWAYS AT THE TOP
     const [activeTab, setActiveTab] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Memoize the grouping logic so it doesn't re-run unless attendanceData changes
     const { dates, groupedData } = useMemo(() => {
-        // Guard against undefined data
         if (!attendanceData || attendanceData.length === 0) {
             return { dates: [], groupedData: {} };
         }
@@ -37,10 +34,8 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
         };
     }, [attendanceData]);
 
-    // 2. CONDITIONAL RETURN AFTER HOOKS
     if (!isOpen) return null;
 
-    // 3. RENDER LOGIC
     const currentRecords = groupedData[dates[activeTab]]?.records.filter(r =>
         r.student?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     ) || [];
@@ -49,7 +44,6 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4">
             <div className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl h-[85vh] flex overflow-hidden border border-slate-200">
 
-                {/* Left Sidebar: Date Navigation */}
                 <div className="w-72 bg-slate-50 border-r border-slate-200 flex flex-col">
                     <div className="p-6 border-b border-slate-200 bg-white">
                         <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
@@ -62,8 +56,8 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
                                 key={date}
                                 onClick={() => { setActiveTab(index); setSearchTerm(''); }}
                                 className={`w-full p-4 rounded-2xl text-left transition-all ${activeTab === index
-                                        ? 'bg-white shadow-md border-l-4 border-indigo-600'
-                                        : 'hover:bg-slate-200 text-slate-500'
+                                    ? 'bg-white shadow-md border-l-4 border-indigo-600'
+                                    : 'hover:bg-slate-200 text-slate-500'
                                     }`}
                             >
                                 <p className={`text-sm font-bold ${activeTab === index ? 'text-indigo-600' : 'text-slate-700'}`}>
@@ -78,9 +72,7 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
                     </div>
                 </div>
 
-                {/* Right Content: Student Table */}
                 <div className="flex-1 flex flex-col bg-white">
-                    {/* Header with Search */}
                     <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-white">
                         <div className="relative w-full max-w-sm">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -97,7 +89,6 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
                         </button>
                     </div>
 
-                    {/* Table */}
                     <div className="flex-1 overflow-y-auto p-6 scroll-smooth">
                         {currentRecords.length > 0 ? (
                             <table className="w-full border-separate border-spacing-y-2">
@@ -120,7 +111,7 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
                                             </td>
                                             <td className="px-4 py-4 bg-white border-y border-r border-slate-100 rounded-r-2xl shadow-sm group-hover:shadow-md transition-all text-right">
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold ${record.status === 'Present' ? 'bg-emerald-50 text-emerald-600' :
-                                                        record.status === 'Absent' ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600'
+                                                    record.status === 'Absent' ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-600'
                                                     }`}>
                                                     {record.status === 'Present' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
                                                     {record.status}
@@ -138,7 +129,6 @@ const AttendanceModal = ({ isOpen, onClose, attendanceData }) => {
                         )}
                     </div>
 
-                    {/* Footer Summary */}
                     <div className="p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
                         <div className="flex items-center gap-2">
                             <Users className="w-4 h-4 text-slate-400" />
