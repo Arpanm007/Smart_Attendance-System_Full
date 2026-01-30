@@ -49,11 +49,11 @@ export default function DashboardLayout({ children }) {
             {/* Sidebar for Desktop */}
             <div className="hidden md:flex md:w-64 md:flex-col fixed h-full z-10">
                 <div className="flex flex-col flex-grow pt-5 bg-indigo-900 overflow-y-auto">
-                    <div className="flex items-center flex-shrink-0 px-4 mb-8">
-                        <div className="h-8 w-8 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-lg mr-3"></div>
-                        <h1 className="text-white text-xl font-bold tracking-wider">
-                            <span className="text-purple-400">AK Nexus</span>
-                        </h1>
+                    <div className="flex items-center gap-2">
+                        <div className="h-10 w-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                            <QrCode className="text-white" size={24} />
+                        </div>
+                        <span className="text-xl font-bold text-gray-900">SmartAttend</span>
                     </div>
 
                     <nav className="flex-grow flex flex-col px-4 space-y-2">
