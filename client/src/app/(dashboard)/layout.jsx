@@ -12,7 +12,8 @@ import {
     Book,
     Menu,
     X,
-    Users
+    Users,
+    QrCode
 } from 'lucide-react';
 
 export default function DashboardLayout({ children }) {
@@ -48,12 +49,12 @@ export default function DashboardLayout({ children }) {
         <div className="min-h-screen bg-gray-100 flex">
             {/* Sidebar for Desktop */}
             <div className="hidden md:flex md:w-64 md:flex-col fixed h-full z-10">
-                <div className="flex flex-col flex-grow pt-5 bg-indigo-900 overflow-y-auto">
-                    <div className="flex items-center gap-2">
-                        <div className="h-10 w-10 bg-purple-600 rounded-lg flex items-center justify-center">
-                            <QrCode className="text-white" size={24} />
+                <div className="flex flex-col grow pt-5 bg-indigo-900 overflow-y-auto">
+                    <div className="flex items-center gap-3 px-4 mb-8">
+                        <div className="h-12 w-12 bg-linear-to-br from-purple-600 to-purple-400 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow">
+                            <QrCode className="text-white" size={28} />
                         </div>
-                        <span className="text-xl font-bold text-gray-900">SmartAttend</span>
+                        <span className="text-2xl font-bold bg-linear-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">SmartAttend</span>
                     </div>
 
                     <nav className="flex-grow flex flex-col px-4 space-y-2">
