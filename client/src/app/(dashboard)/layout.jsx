@@ -93,7 +93,7 @@ export default function DashboardLayout({ children }) {
             <div className="flex-1 flex flex-col md:pl-64 transition-all duration-300">
                 {/* Mobile Header */}
                 <div className="md:hidden flex items-center justify-between bg-indigo-900 p-4 shadow-md">
-                    <span className="text-white font-bold text-lg">AK Nexus</span>
+                    <span className="text-white font-bold text-lg">SmartAttend</span>
                     <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white">
                         {isMobileMenuOpen ? <X /> : <Menu />}
                     </button>
@@ -120,7 +120,7 @@ export default function DashboardLayout({ children }) {
                     {children}
 
                     <footer className="mt-12 border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
-                        <p>© {new Date().getFullYear()} AK Nexus. Built for Campus Excellence.</p>
+                        <p>© {new Date().getFullYear()} SmartAttend. Built for Campus Excellence.</p>
                         <p className="mt-1 text-xs text-gray-400">Version 2.4.0 (Enterprise Edition)</p>
                     </footer>
                 </main>
