@@ -1,50 +1,6 @@
 const Attendance = require('../models/Attendance');
 const User = require('../models/User');
 
-// @desc    Mark attendance (Upsert: Create or Update)
-// @route   POST /api/attendance
-// @access  Private (Teacher only)
-// const markAttendance = async (req, res) => {
-//     const { studentId, status, date, subjectId } = req.body;
-
-//     if (!subjectId) {
-//         res.status(400).json({ message: 'Subject is required' });
-//         return;
-//     }
-
-//     // Normalize date to midnight to ensure consistency
-//     const attendanceDate = new Date(date || Date.now());
-//     attendanceDate.setHours(0, 0, 0, 0);
-
-//     try {
-//         // Check if record exists
-//         const existingRecord = await Attendance.findOne({
-//             student: studentId,
-//             subject: subjectId,
-//             date: attendanceDate
-//         });
-
-//         if (existingRecord) {
-//             // Update existing
-//             existingRecord.status = status;
-//             await existingRecord.save();
-//             res.json({ message: 'Attendance updated', data: existingRecord });
-//         } else {
-//             // Create new
-//             const attendance = await Attendance.create({
-//                 student: studentId,
-//                 status,
-//                 date: attendanceDate,
-//                 subject: subjectId
-//             });
-//             res.status(201).json({ message: 'Attendance marked', data: attendance });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         res.status(400).json({ message: 'Error marking attendance', error: error.message });
-//     }
-// };
-
 const markAttendance = async (req, res) => {
     const { studentId, date, classId, status } = req.body;
     console.log(req.body);
@@ -91,44 +47,6 @@ const markAttendance = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(400).json({ message: 'Error marking attendance', error: error.message });
-    }
-};
-
-// @desc    Mark BULK attendance
-// @route   POST /api/attendance/bulk
-// @access  Private (Teacher only)
-const markBulkAttendance = async (req, res) => {
-    const { attendanceData, date, subjectId } = req.body;
-    // attendanceData = [{ studentId: '123', status: 'Present' }, ...]
-
-    if (!attendanceData || !Array.isArray(attendanceData) || !subjectId) {
-        return res.status(400).json({ message: 'Invalid data format' });
-    }
-
-    const attendanceDate = new Date(date || Date.now());
-    attendanceDate.setHours(0, 0, 0, 0);
-
-    try {
-        const operations = attendanceData.map(record => ({
-            updateOne: {
-                filter: {
-                    student: record.studentId,
-                    subject: subjectId,
-                    date: attendanceDate
-                },
-                update: {
-                    $set: { status: record.status }
-                },
-                upsert: true
-            }
-        }));
-
-        await Attendance.bulkWrite(operations);
-        res.json({ message: 'Bulk attendance marked successfully' });
-
-    } catch (error) {
-        console.error("Bulk write error:", error);
-        res.status(500).json({ message: 'Failed to mark bulk attendance' });
     }
 };
 

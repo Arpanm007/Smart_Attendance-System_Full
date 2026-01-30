@@ -10,7 +10,12 @@
 
 > Full-stack attendance management with real-time updates, QR codes, and role-based dashboards for students and teachers.
 
-**Next.js** (client) + **Express** (server) + **MongoDB** + **Socket.IO**
+**Next.js** (client) · **Express** (server) · **MongoDB** · **Socket.IO**
+
+| 📖 Documentation | |
+|------------------|---|
+| [**Client README**](client/README.md) | Setup, pages, components, auth, API usage, Socket.IO |
+| [**Server README**](server/README.md) | API setup, env, routes (with sample request/response), Socket.IO |
 
 ---
 
@@ -20,7 +25,7 @@
 # 1. Install dependencies
 cd client && npm install && cd ../server && npm install
 
-# 2. Configure server (create server/.env with PORT, MONGO_URI, JWT_SECRET)
+# 2. Configure server: create server/.env (PORT, MONGO_URI, JWT_SECRET)
 # 3. Start server (Terminal 1)
 cd server && npm run dev
 
@@ -28,22 +33,37 @@ cd server && npm run dev
 cd client && npm run dev
 ```
 
-Then open **http://localhost:3000** — register, login, and use the dashboard.
+Open **http://localhost:3000** → register, login, use the dashboard.
 
 ---
 
 ## Table of Contents
 
+**Overview**
+
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Prerequisites](#prerequisites)
+
+**Project**
+
 - [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
+- [Documentation](#documentation)
+
+**Getting Started**
+
 - [Installation](#installation)
+- [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
+
+**Reference**
+
 - [API Reference](#api-reference)
 - [Real-Time (Socket.IO)](#real-time-socketio)
 - [Available Scripts](#available-scripts)
+
+**More**
+
 - [Deployment](#deployment)
 - [License](#license)
 
@@ -54,7 +74,7 @@ Then open **http://localhost:3000** — register, login, and use the dashboard.
 | Feature | Description |
 |--------|-------------|
 | **Authentication** | JWT-based register/login with roles (student / teacher) |
-| **Dashboards** | Role-based views: students (attendance history, subjects), teachers (mark attendance, reports, QR) |
+| **Dashboards** | Role-based: students (attendance history, subjects), teachers (mark attendance, reports, QR) |
 | **Attendance** | Per-session marking, bulk marking, reports |
 | **Subjects & Courses** | Create/manage subjects and link users |
 | **QR Codes** | Generate and scan QR codes for quick attendance |
@@ -88,22 +108,22 @@ Then open **http://localhost:3000** — register, login, and use the dashboard.
 
 ```
 Smart_Attendance-System_Full/
-├── client/                          # Next.js frontend (App Router)
+├── client/                    # Next.js frontend (App Router)
 │   ├── public/
 │   ├── src/
-│   │   ├── app/                     # Pages: login, register, dashboard
-│   │   ├── api/                     # Axios client
-│   │   ├── components/              # Dashboards, modals, stats
-│   │   └── context/                 # Auth context
+│   │   ├── app/               # login, register, dashboard
+│   │   ├── api/               # Axios client
+│   │   ├── components/       # Dashboards, modals, stats
+│   │   └── context/           # Auth context
 │   ├── next.config.mjs
 │   └── package.json
-├── server/                          # Express backend
-│   ├── config/db.js                 # MongoDB connection
-│   ├── controllers/                 # auth, attendance, user, subject, getInfo
-│   ├── middleware/authMiddleware.js # JWT + role checks
-│   ├── models/                      # User, Attendance, Subject
-│   ├── routes/                      # auth, attendance, user, subject
-│   ├── server.js                    # Express + Socket.IO entry
+├── server/                    # Express backend
+│   ├── config/db.js
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
 │   └── package.json
 └── README.md
 ```
@@ -112,11 +132,32 @@ Smart_Attendance-System_Full/
 
 ---
 
+## Documentation
+
+| Part | README | Contents |
+|------|--------|----------|
+| **Client** | [client/README.md](client/README.md) | Pages, components, auth, API usage, Socket.IO, scripts |
+| **Server** | [server/README.md](server/README.md) | Env, routes with sample request/response, Socket.IO, scripts |
+
+---
+
+## Installation
+
+From the **project root**:
+
+```bash
+cd client && npm install
+cd ../server && npm install
+```
+
+Ensure **MongoDB** is running and **server/.env** is set before starting the server.  
+→ Server setup: [server/README.md](server/README.md) · Client config: [client/README.md](client/README.md)
+
+---
+
 ## Environment Variables
 
-Create a **`.env`** file in the **`server`** directory. The client API base URL is set in `client/src/api/axios.js` (e.g. `http://localhost:5000/api`).
-
-### Server (`server/.env`)
+Create **`server/.env`** with:
 
 | Variable | Description | Example |
 |----------|-------------|---------|
@@ -130,49 +171,22 @@ MONGO_URI=mongodb://localhost:27017/smart-attendance
 JWT_SECRET=your_secure_jwt_secret_here
 ```
 
+Client API base URL is set in **`client/src/api/axios.js`** (e.g. `http://localhost:5000/api`).
+
 > Do not commit `.env`. Use a strong `JWT_SECRET` in production.
-
----
-
-## Installation
-
-From the **project root**:
-
-```bash
-cd client
-npm install
-
-cd ../server
-npm install
-```
-
-Ensure MongoDB is running and `server/.env` is set before starting the server.
 
 ---
 
 ## Running the Application
 
-### Development (two terminals)
+**Development** (two terminals)
 
-**Terminal 1 — Server**
+| Terminal | Command | URL |
+|----------|---------|-----|
+| 1 — Server | `cd server && npm run dev` | http://localhost:5000 |
+| 2 — Client | `cd client && npm run dev` | http://localhost:3000 |
 
-```bash
-cd server
-npm run dev
-```
-
-API: **http://localhost:5000** (root returns a status message)
-
-**Terminal 2 — Client**
-
-```bash
-cd client
-npm run dev
-```
-
-App: **http://localhost:3000**
-
-### Production
+**Production**
 
 ```bash
 # Client
@@ -188,45 +202,24 @@ Set `NODE_ENV=production` and use a production MongoDB and strong `JWT_SECRET`.
 
 ## API Reference
 
-**Base URL:** `http://localhost:5000/api`
+**Base URL:** `http://localhost:5000/api` · Protected routes: `Authorization: Bearer <token>`
 
-Protected routes use header: `Authorization: Bearer <token>`.
-
-### Auth — `/api/auth`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/register` | Register (name, email, password, role, …) |
-| `POST` | `/login` | Login (email, password) |
-| `POST` | `/user/info` | Get current user (Bearer token) |
-
-### Attendance — `/api/attendance`
-
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| `POST` | `/` | Mark attendance | Teacher |
-| `GET` | `/` | Attendance report | Teacher |
-| `POST` | `/bulk` | Bulk mark | Teacher |
-| `GET` | `/my` | My attendance | Student |
-| `POST` | `/join` | Join (e.g. QR) | — |
-
-### Users — `/api/users`
-
-User management; see `server/routes/userRoutes.js`.
-
-### Subjects — `/api/subjects`
-
-Subject CRUD and listing; see `server/routes/subjectRoutes.js`.
+| Area | Endpoints | Full docs |
+|------|-----------|-----------|
+| **Auth** | `POST /auth/register`, `POST /auth/login`, `POST /auth/user/info` | [server/README.md#api-reference](server/README.md#api-reference) |
+| **Attendance** | `POST /`, `GET /`, `POST /bulk`, `GET /my`, `POST /join` | [server/README.md#api-reference](server/README.md#api-reference) |
+| **Users** | `GET /users/students`, `POST /users/stats`, `PUT /users/profile` | [server/README.md#api-reference](server/README.md#api-reference) |
+| **Subjects** | `GET /`, `POST /` | [server/README.md#api-reference](server/README.md#api-reference) |
 
 ---
 
 ## Real-Time (Socket.IO)
 
-The server runs Socket.IO on the same port as the API. Connect to `http://localhost:5000`.
+Server runs Socket.IO on the same port as the API. Connect to `http://localhost:5000`.
 
 | Event | Description |
 |-------|-------------|
-| `join` | Client sends `classId`; server joins socket to that room (e.g. teacher–class) |
+| `join` | Client sends `classId`; server joins socket to that room |
 | `disconnect` | Cleanup on disconnect |
 
 Configure the Socket.IO client in the frontend with the same server URL and port.
@@ -235,21 +228,16 @@ Configure the Socket.IO client in the frontend with the same server URL and port
 
 ## Available Scripts
 
-### Client (`client/`)
+| Part | Command | Description |
+|------|---------|-------------|
+| **Client** | `npm run dev` | Dev server (port 3000) |
+| | `npm run build` | Production build |
+| | `npm run start` | Run production build |
+| | `npm run lint` | ESLint |
+| **Server** | `npm run dev` | Dev with Nodemon |
+| | `npm start` | Run `node server.js` |
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Dev server (port 3000) |
-| `npm run build` | Production build |
-| `npm run start` | Run production build |
-| `npm run lint` | ESLint |
-
-### Server (`server/`)
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Dev with Nodemon |
-| `npm start` | Run `node server.js` |
+Details: [client/README.md#available-scripts](client/README.md#available-scripts) · [server/README.md#available-scripts](server/README.md#available-scripts)
 
 ---
 
@@ -257,9 +245,9 @@ Configure the Socket.IO client in the frontend with the same server URL and port
 
 | Part | Notes |
 |------|--------|
-| **Client** | `npm run build` + `npm run start`, or deploy to [Vercel](https://vercel.com). Set API URL in client (e.g. `axios.js` or env). |
-| **Server** | Deploy to [Railway](https://railway.app), [Render](https://render.com), or any Node host. Set `PORT`, `MONGO_URI`, `JWT_SECRET`. |
-| **Database** | Use [MongoDB Atlas](https://www.mongodb.com/atlas); set `MONGO_URI`. |
+| **Client** | `npm run build` + `npm run start`, or [Vercel](https://vercel.com). Set API URL in `client/src/api/axios.js` or env. |
+| **Server** | [Railway](https://railway.app), [Render](https://render.com), or any Node host. Set `PORT`, `MONGO_URI`, `JWT_SECRET`. |
+| **Database** | [MongoDB Atlas](https://www.mongodb.com/atlas); set `MONGO_URI`. |
 | **CORS** | Set server CORS and Socket.IO `origin` to your frontend URL in production. |
 
 ---

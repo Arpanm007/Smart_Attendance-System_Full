@@ -5,7 +5,6 @@ const { protect, teacher, student } = require('../middleware/authMiddleware');
 
 router.route('/').post(protect, teacher, markAttendance).get(protect, teacher, getAttendanceReport);
 router.route('/join').post(markAttendance);
-router.post('/bulk', protect, teacher, markBulkAttendance);
 router.route('/my').get(protect, student, getMyAttendance);
 
 module.exports = router;
